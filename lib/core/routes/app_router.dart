@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:multi_trendzz/core/routes/app_routes.dart';
-import 'package:multi_trendzz/presentation/auth_screens/login_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/complete_profile_screen/complete_profile_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/login_screen/login_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/sign_up_screen/sign_up_screen.dart';
 import 'package:multi_trendzz/presentation/onboarding_screen/onboarding_screen.dart';
 import 'package:multi_trendzz/presentation/splash_screen/splash_screen.dart';
 import 'package:multi_trendzz/presentation/welcome_screen/welcome_screen.dart';
@@ -27,6 +29,16 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.loginScreen,
         builder: (context, state) => const LoginScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.signUpScreen,
+        builder: (context, state) => const SignUpScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.completeProfileScreen,
+        builder: (context, state) => const CompleteProfileScreen(),
       ),
 
     ],

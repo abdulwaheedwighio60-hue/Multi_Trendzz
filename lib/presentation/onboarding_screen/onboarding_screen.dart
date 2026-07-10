@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:multi_trendzz/core/constants/app_colors.dart';
+import 'package:multi_trendzz/core/constants/app_texts.dart';
+import 'package:multi_trendzz/core/model/onboarding_model.dart';
 import 'package:multi_trendzz/core/routes/app_routes.dart';
 import 'package:multi_trendzz/core/theme/app_text_style.dart';
 
@@ -17,27 +19,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<_OnboardingModel> _pages = const [
-    _OnboardingModel(
+  final List<OnboardingModel> _pages =  [
+    OnboardingModel(
       image: 'assets/images/get_started_image.png',
-      redTitle: 'Wishlist to Dream Product,',
-      blackTitle: 'in Just a Few Clicks',
+      redTitle: AppStrings.redTitle,
+      blackTitle: AppStrings.blackTitle,
       description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+      AppStrings.descriptionString,
     ),
-    _OnboardingModel(
+    OnboardingModel(
       image: 'assets/images/get_started_image.png',
-      redTitle: 'Explore Latest Trends,',
-      blackTitle: 'All in One Place',
+      redTitle: AppStrings.redTitle1,
+      blackTitle: AppStrings.blackTitle1,
       description:
-      'Discover your favorite products and enjoy a smooth shopping experience every day.',
+      AppStrings.blackTitle1,
     ),
-    _OnboardingModel(
+    OnboardingModel(
       image: 'assets/images/get_started_image.png',
-      redTitle: 'Shop Smartly,',
-      blackTitle: 'Fast and Secure',
+      redTitle: AppStrings.redTitle2,
+      blackTitle: AppStrings.blackTitle2,
       description:
-      'Buy products with confidence using a simple, fast and secure shopping journey.',
+      AppStrings.descriptionText2,
     ),
   ];
 
@@ -80,7 +82,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _OnboardingModel currentData = _pages[_currentPage];
+    final OnboardingModel currentData = _pages[_currentPage];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -404,16 +406,3 @@ class _RedLinePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-class _OnboardingModel {
-  const _OnboardingModel({
-    required this.image,
-    required this.redTitle,
-    required this.blackTitle,
-    required this.description,
-  });
-
-  final String image;
-  final String redTitle;
-  final String blackTitle;
-  final String description;
-}

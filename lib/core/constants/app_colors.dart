@@ -53,4 +53,6 @@ class AppColors {
 
   // Shadow
   static const Color shadow = Color(0x1A000000);
+
+  static final Color inputFieldColor = textHint.withOpacity(0.15);
 }
