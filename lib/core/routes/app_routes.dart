@@ -5,5 +5,7 @@ class AppRoutes {
   static const loginScreen = "/login";
   static const signUpScreen = "/sign-up-screen";
   static const completeProfileScreen = "/complete-profile-screen";
+  static const dashboardScreen = "/dashboard-screen";
+  static const rootScreen = "/root-screen";
 
 }

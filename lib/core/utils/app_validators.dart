@@ -1,6 +1,15 @@
 class AppValidators {
   AppValidators._();
 
+  static final Map<String, int> phoneLengthByDialCode = {
+    '+92': 10,  // Pakistan
+    '+91': 10,  // India
+    '+971': 9, // UAE
+    '+966': 9, // Saudi Arabia
+    '+1': 10,  // USA / Canada
+    '+44': 10, // UK
+  };
+
   static String? validateRequired(
       String? value, {
         String fieldName = 'Field',
@@ -63,15 +72,25 @@ class AppValidators {
     return null;
   }
 
-  static String? validatePhone(String? value) {
+  static String? validatePhone(
+      String? value, {
+        required String selectedDialCode,
+      }) {
     final String phone = value?.trim() ?? '';
 
     if (phone.isEmpty) {
       return 'Please enter phone number';
     }
 
-    if (phone.length < 10) {
-      return 'Please enter valid phone number';
+    if (!RegExp(r'^[0-9]+$').hasMatch(phone)) {
+      return 'Phone number should contain digits only';
+    }
+
+    final int requiredLength =
+        phoneLengthByDialCode[selectedDialCode] ?? 7;
+
+    if (phone.length != requiredLength) {
+      return 'Phone number must be $requiredLength digits for $selectedDialCode';
     }
 
     return null;

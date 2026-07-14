@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_trendzz/core/constants/app_colors.dart';
 
@@ -20,6 +21,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.onTap,
+    this.inputFormatters, this.fillColor, // 👈 Add this
   });
 
   final TextEditingController? controller;
@@ -37,6 +39,8 @@ class CustomTextFormFieldWidget extends StatelessWidget {
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
   final VoidCallback? onTap;
+  final List<TextInputFormatter>? inputFormatters;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +56,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       onTap: onTap,
+      inputFormatters: inputFormatters, // 👈 Add this
       style: TextStyle(
         color: Colors.black87,
         fontSize: 14.sp,
@@ -59,7 +64,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: AppColors.textHint.withOpacity(0.15),
+        fillColor: fillColor ?? AppColors.textHint.withOpacity(0.15),
 
         hintText: hintText,
         labelText: labelText,

@@ -60,4 +60,12 @@ class AppStrings{
 
 
 
+  ///DashboardScreen Strings
+  static const String specialOfferForYou = "#SpecialOfferForYou";
+  static const String seeAll = "See All";
+  static const String category = "Category";
+  static const String flashSale = "Flash Sale";
+  static const String closingIn = "Closing in : ";
+
+
 }

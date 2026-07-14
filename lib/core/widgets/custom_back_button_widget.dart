@@ -33,8 +33,8 @@ class CustomBackButtonWidget extends StatelessWidget {
             Navigator.pop(context);
           },
       child: Container(
-        width: size ?? 45.w,
-        height: size ?? 45.w,
+        width: size ?? 40.w,
+        height: size ?? 40.w,
         decoration: BoxDecoration(
           color: backgroundColor ?? Colors.transparent,
           shape: BoxShape.circle,
