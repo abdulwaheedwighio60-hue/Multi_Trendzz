@@ -9,5 +9,7 @@ class AppRoutes {
   static const rootScreen = "/root-screen";
   static const productDetailScreen = "/product-detail";
   static const cartScreen = "/cart-screen";
+  static const proceedToCheckOutScreen = "/proceed-screen";
+
 
 }
