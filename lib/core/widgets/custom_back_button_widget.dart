@@ -12,7 +12,7 @@ class CustomBackButtonWidget extends StatelessWidget {
     this.backgroundColor,
     this.borderColor,
     this.iconColor,
-    this.borderWidth,
+    this.borderWidth, this.icon,
   });
 
   final VoidCallback? onTap;
@@ -22,6 +22,8 @@ class CustomBackButtonWidget extends StatelessWidget {
   final Color? borderColor;
   final Color? iconColor;
   final double? borderWidth;
+  final IconData? icon;
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class CustomBackButtonWidget extends StatelessWidget {
         ),
         child: Center(
           child: Icon(
-            isIOS ? CupertinoIcons.back : Icons.arrow_back,
+            icon ?? (isIOS ? CupertinoIcons.back : Icons.arrow_back),
             color: iconColor ?? AppColors.darkColor,
             size: iconSize ?? 22.sp,
           ),

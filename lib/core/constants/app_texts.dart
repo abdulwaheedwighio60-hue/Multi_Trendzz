@@ -68,4 +68,7 @@ class AppStrings{
   static const String closingIn = "Closing in : ";
 
 
+  ///ProductDetailScreen Strings
+  static const String productDetail = "Product Details";
+
 }

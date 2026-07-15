@@ -3,7 +3,9 @@ import 'package:multi_trendzz/core/routes/app_routes.dart';
 import 'package:multi_trendzz/presentation/auth_screens/complete_profile_screen/complete_profile_screen.dart';
 import 'package:multi_trendzz/presentation/auth_screens/login_screen/login_screen.dart';
 import 'package:multi_trendzz/presentation/auth_screens/sign_up_screen/sign_up_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/cart_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/dashboard_screen/dashboard_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/product_detail_screen/product_detail_screen.dart';
 import 'package:multi_trendzz/presentation/onboarding_screen/onboarding_screen.dart';
 import 'package:multi_trendzz/presentation/splash_screen/splash_screen.dart';
 import 'package:multi_trendzz/presentation/welcome_screen/welcome_screen.dart';
@@ -11,7 +13,7 @@ import 'package:multi_trendzz/root_screen.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.splashScreen,
+    initialLocation: AppRoutes.cartScreen,
     routes: [
 
       GoRoute(
@@ -49,6 +51,14 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.dashboardScreen,
         builder: (context, state) => const DashboardScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.productDetailScreen,
+        builder: (context, state) => const ProductDetailScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.cartScreen,
+        builder: (context, state) => const CartScreen(),
       ),
     ],
   );

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:multi_trendzz/core/constants/app_colors.dart';
 import 'package:multi_trendzz/core/constants/app_images.dart';
 import 'package:multi_trendzz/core/constants/app_texts.dart';
 import 'package:multi_trendzz/core/model/category_item.dart';
 import 'package:multi_trendzz/core/model/product_item.dart';
+import 'package:multi_trendzz/core/routes/app_routes.dart';
 import 'package:multi_trendzz/core/theme/app_text_style.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/dashboard_screen/widgets/category_button_widget.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/dashboard_screen/widgets/dashboard_header_widget.dart';
@@ -257,6 +259,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             isFavorite: product.isFavorite,
                             onTap: () {
                               debugPrint('Product clicked: ${product.productName}');
+                              context.go(AppRoutes.productDetailScreen);
                             },
                             onFavoriteTap: () {
                               debugPrint('Favorite clicked: ${product.productName}');
