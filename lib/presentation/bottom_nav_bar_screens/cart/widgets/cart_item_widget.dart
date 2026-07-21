@@ -20,12 +20,247 @@ class CartItemWidget extends StatelessWidget {
   final VoidCallback onDecrease;
   final VoidCallback onRemove;
 
+  Future<bool?> _showRemoveCartBottomSheet(
+      BuildContext context,
+      ) {
+    return showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      barrierColor: AppColors.black.withOpacity(0.35),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SafeArea(
+          top: false,
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(
+              20.w,
+              18.h,
+              20.w,
+              22.h,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(28.r),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.black.withOpacity(0.08),
+                  blurRadius: 24.r,
+                  offset: Offset(0, -8.h),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Remove from Cart?',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.titleLarge.copyWith(
+                    color: AppColors.textPrimary,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+
+                SizedBox(height: 18.h),
+
+                Divider(
+                  height: 1.h,
+                  thickness: 1.h,
+                  color: AppColors.dividerColor,
+                ),
+
+                SizedBox(height: 18.h),
+
+                Row(
+                  children: [
+                    Container(
+                      width: 82.w,
+                      height: 82.w,
+                      decoration: BoxDecoration(
+                        color: AppColors.greyColor.withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: Image.asset(
+                          item.imagePath,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(width: 14.w),
+
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.bodyLarge.copyWith(
+                              color: AppColors.textPrimary,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+
+                          SizedBox(height: 5.h),
+
+                          Text(
+                            item.category,
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: AppColors.textSecondary,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+
+                          SizedBox(height: 8.h),
+
+                          Text(
+                            '\$${item.totalPrice.toStringAsFixed(2)}',
+                            style: AppTextStyles.bodyLarge.copyWith(
+                              color: AppColors.textPrimary,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Row(
+                      children: [
+                        QuantityButton(
+                          icon: Icons.remove,
+                          backgroundColor:
+                          AppColors.greyColor.withOpacity(0.08),
+                          iconColor: AppColors.textPrimary,
+                          onTap: () {},
+                        ),
+
+                        SizedBox(width: 10.w),
+
+                        Text(
+                          item.quantity.toString(),
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.textPrimary,
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+
+                        SizedBox(width: 10.w),
+
+                        QuantityButton(
+                          icon: Icons.add,
+                          backgroundColor: AppColors.primaryColor,
+                          iconColor: AppColors.white,
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 26.h),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 52.h,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                            AppColors.greyColor.withOpacity(0.08),
+                            foregroundColor: AppColors.primaryColor,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.r),
+                            ),
+                          ),
+                          child: Text(
+                            'Cancel',
+                            style: AppTextStyles.bodyLarge.copyWith(
+                              color: AppColors.primaryColor,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(width: 12.w),
+
+                    Expanded(
+                      child: SizedBox(
+                        height: 52.h,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            foregroundColor: AppColors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.r),
+                            ),
+                          ),
+                          child: Text(
+                            'Yes, Remove',
+                            style: AppTextStyles.bodyLarge.copyWith(
+                              color: AppColors.white,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: ValueKey(item.title),
       direction: DismissDirection.endToStart,
-      onDismissed: (_) => onRemove(),
+
+      // Important:
+      // Swipe par direct remove nahi hoga.
+      // Pehle bottom sheet show hogi.
+      confirmDismiss: (DismissDirection direction) async {
+        final bool? shouldRemove =
+        await _showRemoveCartBottomSheet(context);
+
+        if (shouldRemove == true) {
+          onRemove();
+        }
+
+        // false return karne se Dismissible item khud remove nahi karega.
+        // Remove ka control parent list ke onRemove/setState ke paas rahega.
+        return false;
+      },
+
       background: Container(
         alignment: Alignment.centerRight,
         padding: EdgeInsets.only(right: 24.w),
@@ -39,6 +274,7 @@ class CartItemWidget extends StatelessWidget {
           size: 26.sp,
         ),
       ),
+
       child: Container(
         color: AppColors.lightColor,
         child: Row(

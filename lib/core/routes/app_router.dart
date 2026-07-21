@@ -1,27 +1,34 @@
-import 'package:go_router/go_router.dart';
-import 'package:multi_trendzz/core/routes/app_routes.dart';
-import 'package:multi_trendzz/presentation/auth_screens/complete_profile_screen/complete_profile_screen.dart';
-import 'package:multi_trendzz/presentation/auth_screens/login_screen/login_screen.dart';
-import 'package:multi_trendzz/presentation/auth_screens/sign_up_screen/sign_up_screen.dart';
-import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/cart_screen.dart';
-import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/dashboard_screen/dashboard_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/forget_password/reset_password_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/forget_password/verify_email_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/forget_password/verify_otp_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/proceed_to_check_out_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/product_detail_screen/product_detail_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/shipping_address/add_new_shipping_address.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/shipping_address/shipping_address_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/user_profile_screen/edit_profile_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/user_profile_screen/user_profile_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/complete_profile_screen/complete_profile_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/dashboard_screen/dashboard_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/sign_up_screen/sign_up_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/cart_screen.dart';
+import 'package:multi_trendzz/presentation/auth_screens/login_screen/login_screen.dart';
+import 'package:multi_trendzz/presentation/payment_method/add_card_screen.dart';
+import 'package:multi_trendzz/presentation/payment_method/payment_method_screen.dart';
 import 'package:multi_trendzz/presentation/onboarding_screen/onboarding_screen.dart';
-import 'package:multi_trendzz/presentation/splash_screen/splash_screen.dart';
 import 'package:multi_trendzz/presentation/welcome_screen/welcome_screen.dart';
+import 'package:multi_trendzz/presentation/splash_screen/splash_screen.dart';
+import 'package:multi_trendzz/core/routes/app_routes.dart';
 import 'package:multi_trendzz/root_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: AppRoutes.splashScreen,
     routes: [
-
       GoRoute(
         path: AppRoutes.splashScreen,
         builder: (context, state) => const SplashScreen(),
       ),
-
       GoRoute(
         path: AppRoutes.welcomeScreen,
         builder: (context, state) => const WelcomeScreen(),
@@ -30,17 +37,14 @@ class AppRouter {
         path: AppRoutes.onboardingScreen,
         builder: (context, state) => const OnboardingScreen(),
       ),
-
       GoRoute(
         path: AppRoutes.loginScreen,
         builder: (context, state) => const LoginScreen(),
       ),
-
       GoRoute(
         path: AppRoutes.signUpScreen,
         builder: (context, state) => const SignUpScreen(),
       ),
-
       GoRoute(
         path: AppRoutes.completeProfileScreen,
         builder: (context, state) => const CompleteProfileScreen(),
@@ -64,6 +68,54 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.proceedToCheckOutScreen,
         builder: (context, state) => const ProceedToCheckOutScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.userProfileScreen,
+        builder: (context, state) => const UserProfileScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.editProfileScreen,
+        builder: (context, state) => const EditProfileScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.paymentMethodScreen,
+        builder: (context, state) => const PaymentMethodScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.shippingAddressScreen,
+        builder: (context, state) => const ShippingAddressScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.addNewShippingAddress,
+        builder: (context, state) => const AddNewShippingAddressScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.addCardScreen,
+        builder: (context, state) => const AddCardScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.verifyEmailScreen,
+        builder: (context, state) => const VerifyEmailScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.verifyOtpScreen,
+        builder: (context, state) {
+          final String email = state.extra?.toString() ?? '';
+          return VerifyOtpScreen(
+            email: email,
+          );
+        },
+      ),
+
+
+      GoRoute(
+        path: AppRoutes.resetPasswordScreen,
+        builder: (context ,state){
+          final String email = state.extra?.toString() ?? '';
+          return ResetPasswordScreen(email: email);
+        }
       ),
     ],
   );

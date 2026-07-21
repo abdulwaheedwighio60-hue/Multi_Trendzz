@@ -7,7 +7,7 @@ import 'package:multi_trendzz/core/theme/app_text_style.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/cart_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/chat_screen/chat_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/dashboard_screen/dashboard_screen.dart';
-import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/profile_screen/profile_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/user_profile_screen/user_profile_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/wish_list_screen/wish_list_screen.dart';
 
 class RootScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _RootScreenState extends State<RootScreen> {
     WishlistScreen(),
     CartScreen(),
     ChatScreen(),
-    ProfileScreen(),
+    UserProfileScreen()
   ];
 
   final List<BottomNavItem> navItems = const [

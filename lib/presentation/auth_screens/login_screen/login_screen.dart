@@ -222,6 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: InkWell(
         onTap: () {
           // TODO: Navigate to forgot password screen
+          context.go(AppRoutes.verifyEmailScreen);
         },
         borderRadius: BorderRadius.circular(6.r),
         child: IntrinsicWidth(

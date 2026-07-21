@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_trendzz/core/routes/app_router.dart';
 import 'package:multi_trendzz/core/theme/app_theme.dart';
-import 'package:multi_trendzz/presentation/splash_screen/splash_screen.dart';
-import 'package:multi_trendzz/presentation/welcome_screen/welcome_screen.dart';
+import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(const MyApp());

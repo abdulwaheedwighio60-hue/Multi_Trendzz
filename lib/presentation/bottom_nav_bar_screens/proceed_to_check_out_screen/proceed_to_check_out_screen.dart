@@ -1,13 +1,20 @@
+import 'package:multi_trendzz/core/model/shipping_model.dart';
+import 'package:multi_trendzz/core/widgets/custom_back_button_widget.dart';
+import 'package:multi_trendzz/core/constants/app_colors.dart';
+import 'package:multi_trendzz/core/theme/app_text_style.dart';
+import 'package:multi_trendzz/core/constants/app_images.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multi_trendzz/core/routes/app_routes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:multi_trendzz/core/constants/app_colors.dart';
-import 'package:multi_trendzz/core/constants/app_images.dart';
-import 'package:multi_trendzz/core/routes/app_routes.dart';
-import 'package:multi_trendzz/core/theme/app_text_style.dart';
-import 'package:multi_trendzz/core/widgets/custom_back_button_widget.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/widgets/change_button_widget.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/widgets/check_out_order_item_widget.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/widgets/circle_icon.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/widgets/selection_tile_widget.dart';
+
+
 
 class ProceedToCheckOutScreen extends StatefulWidget {
   const ProceedToCheckOutScreen({super.key});
@@ -90,7 +97,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
       itemBuilder: (index) {
         final item = addresses[index];
 
-        return _SelectionTile(
+        return SelectionTile(
           icon: Iconsax.location,
           title: item.title,
           subtitle: item.address,
@@ -114,7 +121,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
       itemBuilder: (index) {
         final item = shippingTypes[index];
 
-        return _SelectionTile(
+        return SelectionTile(
           icon: Iconsax.box,
           title: item.title,
           subtitle: '${item.subtitle}  ${item.date}',
@@ -200,7 +207,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
     debugPrint('Selected Shipping: ${selectedShipping.title}');
 
     // TODO: Navigate payment screen
-    // context.go(AppRoutes.paymentScreen);
+    context.go(AppRoutes.paymentMethodScreen);
   }
 
   @override
@@ -305,7 +312,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
                       itemBuilder: (context, index) {
                         final item = orderItems[index];
 
-                        return _CheckoutOrderItemWidget(item: item);
+                        return CheckoutOrderItemWidget(item: item);
                       },
                     ),
                   ],
@@ -335,7 +342,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _CircleIcon(icon: Iconsax.location),
+        CircleIcon(icon: Iconsax.location),
 
         SizedBox(width: 12.w),
 
@@ -371,7 +378,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
 
         SizedBox(width: 10.w),
 
-        _ChangeButton(onTap: _showAddressSheet),
+        ChangeButton(onTap: _showAddressSheet),
       ],
     );
   }
@@ -380,7 +387,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _CircleIcon(icon: Iconsax.box),
+        CircleIcon(icon: Iconsax.box),
 
         SizedBox(width: 12.w),
 
@@ -425,7 +432,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
 
         SizedBox(width: 10.w),
 
-        _ChangeButton(onTap: _showShippingTypeSheet),
+        ChangeButton(onTap: _showShippingTypeSheet),
       ],
     );
   }
@@ -483,269 +490,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
   }
 }
 
-class _CircleIcon extends StatelessWidget {
-  const _CircleIcon({
-    required this.icon,
-  });
 
-  final IconData icon;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 30.w,
-      height: 30.w,
-      decoration: BoxDecoration(
-        color: AppColors.greyColor.withOpacity(0.08),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icon,
-        color: AppColors.primaryColor,
-        size: 18.sp,
-      ),
-    );
-  }
-}
 
-class _ChangeButton extends StatelessWidget {
-  const _ChangeButton({
-    required this.onTap,
-  });
 
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onTap,
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 8.w),
-        minimumSize: Size.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        foregroundColor: AppColors.primaryColor,
-      ),
-      child: Text(
-        'CHANGE',
-        style: AppTextStyles.bodySmall.copyWith(
-          color: AppColors.primaryColor,
-          fontSize: 11.sp,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-    );
-  }
-}
-
-class _CheckoutOrderItemWidget extends StatelessWidget {
-  const _CheckoutOrderItemWidget({
-    required this.item,
-  });
-
-  final CheckoutOrderItemModel item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 80.w,
-          height: 80.w,
-          decoration: BoxDecoration(
-            color: AppColors.greyColor.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.r),
-            child: Image.asset(
-              item.imagePath,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
-
-        SizedBox(width: 14.w),
-
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                item.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.bodyLarge.copyWith(
-                  color: AppColors.textPrimary,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-
-              SizedBox(height: 5.h),
-
-              Text(
-                item.category,
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.textSecondary,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-
-              SizedBox(height: 7.h),
-
-              Text(
-                '\$${item.price.toStringAsFixed(2)}',
-                style: AppTextStyles.bodyLarge.copyWith(
-                  color: AppColors.textPrimary,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SelectionTile extends StatelessWidget {
-  const _SelectionTile({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.isSelected,
-    required this.onTap,
-    this.trailingText,
-  });
-
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final bool isSelected;
-  final VoidCallback onTap;
-  final String? trailingText;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14.r),
-      child: Container(
-        padding: EdgeInsets.all(14.sp),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primaryColor.withOpacity(0.08)
-              : AppColors.background,
-          borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(
-            color: isSelected
-                ? AppColors.primaryColor
-                : AppColors.borderColor,
-            width: 1.w,
-          ),
-        ),
-        child: Row(
-          children: [
-            _CircleIcon(icon: icon),
-
-            SizedBox(width: 12.w),
-
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: AppTextStyles.bodyLarge.copyWith(
-                      color: AppColors.textPrimary,
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-
-                  SizedBox(height: 4.h),
-
-                  Text(
-                    subtitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textSecondary,
-                      fontSize: 13.sp,
-                      height: 1.3,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            if (trailingText != null) ...[
-              SizedBox(width: 8.w),
-              Text(
-                trailingText!,
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.primaryColor,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
-
-            SizedBox(width: 8.w),
-
-            Icon(
-              isSelected
-                  ? Icons.radio_button_checked
-                  : Icons.radio_button_off,
-              color: isSelected
-                  ? AppColors.primaryColor
-                  : AppColors.textHint,
-              size: 20.sp,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ShippingAddressModel {
-  ShippingAddressModel({
-    required this.title,
-    required this.address,
-  });
-
-  final String title;
-  final String address;
-}
-
-class ShippingTypeModel {
-  ShippingTypeModel({
-    required this.title,
-    required this.subtitle,
-    required this.date,
-    required this.price,
-  });
-
-  final String title;
-  final String subtitle;
-  final String date;
-  final double price;
-}
-
-class CheckoutOrderItemModel {
-  CheckoutOrderItemModel({
-    required this.imagePath,
-    required this.title,
-    required this.category,
-    required this.price,
-  });
-
-  final String imagePath;
-  final String title;
-  final String category;
-  final double price;
-}

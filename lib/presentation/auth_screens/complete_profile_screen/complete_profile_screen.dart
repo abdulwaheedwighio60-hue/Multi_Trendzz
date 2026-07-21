@@ -1,10 +1,4 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:multi_trendzz/core/constants/app_colors.dart';
 import 'package:multi_trendzz/core/constants/app_constants.dart';
 import 'package:multi_trendzz/core/constants/app_texts.dart';
@@ -16,6 +10,12 @@ import 'package:multi_trendzz/core/utils/app_validators.dart';
 import 'package:multi_trendzz/core/widgets/custom_back_button_widget.dart';
 import 'package:multi_trendzz/core/widgets/custom_elevated_button_widget.dart';
 import 'package:multi_trendzz/core/widgets/custom_text_form_field_widget.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:iconsax/iconsax.dart';
+import 'dart:io';
+
 
 class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({super.key});
@@ -318,8 +318,6 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               children: [
                 Expanded(
                   child: SingleChildScrollView(
-                    // keyboardDismissBehavior:
-                    // ScrollViewKeyboardDismissBehavior.onDrag,
                     physics: const BouncingScrollPhysics(),
                     child: Form(
                       key: _formKey,
