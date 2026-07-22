@@ -1,6 +1,10 @@
+import 'package:multi_trendzz/core/model/tracker_order_model.dart';
 import 'package:multi_trendzz/presentation/auth_screens/forget_password/reset_password_screen.dart';
 import 'package:multi_trendzz/presentation/auth_screens/forget_password/verify_email_screen.dart';
 import 'package:multi_trendzz/presentation/auth_screens/forget_password/verify_otp_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/coupon/coupon_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/my_order/my_order_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/my_order/track_order_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/proceed_to_check_out_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/product_detail_screen/product_detail_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/shipping_address/add_new_shipping_address.dart';
@@ -12,6 +16,8 @@ import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/dashboard_scre
 import 'package:multi_trendzz/presentation/auth_screens/sign_up_screen/sign_up_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/cart_screen.dart';
 import 'package:multi_trendzz/presentation/auth_screens/login_screen/login_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/wallet/add_money_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/wallet/wallet_screen.dart';
 import 'package:multi_trendzz/presentation/payment_method/add_card_screen.dart';
 import 'package:multi_trendzz/presentation/payment_method/payment_method_screen.dart';
 import 'package:multi_trendzz/presentation/onboarding_screen/onboarding_screen.dart';
@@ -23,7 +29,7 @@ import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.splashScreen,
+    initialLocation: AppRoutes.rootScreen,
     routes: [
       GoRoute(
         path: AppRoutes.splashScreen,
@@ -116,6 +122,39 @@ class AppRouter {
           final String email = state.extra?.toString() ?? '';
           return ResetPasswordScreen(email: email);
         }
+      ),
+
+
+      GoRoute(
+        path: AppRoutes.myOrderScreen,
+        builder: (context, state) => const MyOrdersScreen(),
+      ),
+
+
+      GoRoute(
+        path: AppRoutes.trackOrderScreen,
+        builder: (context, state) {
+          final TrackOrderModel? order = state.extra as TrackOrderModel?;
+
+          return TrackOrderScreen(
+            order: order,
+          );
+        },
+      ),
+
+      GoRoute(
+        path: AppRoutes.walletScreen,
+        builder: (context, state) => const WalletScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.addMoneyScreen,
+        builder: (context, state) => const AddMoneyScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.couponScreen,
+        builder: (context, state) => const CouponScreen(),
       ),
     ],
   );

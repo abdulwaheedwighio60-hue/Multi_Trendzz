@@ -319,9 +319,12 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ),
             child: CustomBackButtonWidget(
               onTap: () {
-                if (Navigator.canPop(context)) {
+                if (context.canPop()) {
                   context.pop();
                 }
+                // else {
+                //   context.go(AppRoutes.paymentMethodScreen);
+                // }
               },
             ),
           ),

@@ -154,28 +154,33 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       onTap: () {
                         switch (index) {
                           case 0:
-                          // Your profile
-                            context.go(AppRoutes.editProfileScreen);
+                            context.push(AppRoutes.editProfileScreen);
                             break;
 
                           case 1:
                           // Manage Address
+                            context.push(AppRoutes.shippingAddressScreen);
                             break;
 
                           case 2:
                           // Payment Methods
+                            context.push(AppRoutes.paymentMethodScreen);
                             break;
 
                           case 3:
                           // My Orders
+                            context.push(AppRoutes.myOrderScreen);
                             break;
 
                           case 4:
                           // My Coupons
+                            context.push(AppRoutes.couponScreen);
+
                             break;
 
                           case 5:
                           // My Wallet
+                            context.push(AppRoutes.walletScreen);
                             break;
 
                           case 6:

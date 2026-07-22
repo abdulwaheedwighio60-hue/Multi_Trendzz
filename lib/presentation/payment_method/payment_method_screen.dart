@@ -136,7 +136,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
             ),
             child: CustomBackButtonWidget(
               onTap: () {
-                if (Navigator.canPop(context)) {
+                if (context.canPop()) {
                   context.pop();
                 }
               },

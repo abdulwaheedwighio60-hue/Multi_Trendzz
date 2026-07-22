@@ -20,4 +20,10 @@ class AppRoutes {
   static const verifyOtpScreen = "/verify-otp-screen";
   static const resetPasswordScreen = "/reset-password-screen";
 
+  static const myOrderScreen = "/my-order-screen";
+  static const String trackOrderScreen = '/track-order-screen';
+  static const String walletScreen = '/wallet-screen';
+  static const String addMoneyScreen = '/add-money-screen';
+  static const String couponScreen = '/coupon-screen';
+
 }
