@@ -1,7 +1,11 @@
+import 'package:multi_trendzz/core/model/chat_model.dart';
+import 'package:multi_trendzz/core/model/product_detail_item.dart';
 import 'package:multi_trendzz/core/model/tracker_order_model.dart';
 import 'package:multi_trendzz/presentation/auth_screens/forget_password/reset_password_screen.dart';
 import 'package:multi_trendzz/presentation/auth_screens/forget_password/verify_email_screen.dart';
 import 'package:multi_trendzz/presentation/auth_screens/forget_password/verify_otp_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/chat/chat_detail_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/chat/chat_list_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/coupon/coupon_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/my_order/my_order_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/my_order/track_order_screen.dart';
@@ -67,7 +71,14 @@ class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.productDetailScreen,
-        builder: (context, state) => const ProductDetailScreen(),
+        builder: (context, state) {
+          final ProductDetailModel? product =
+          state.extra as ProductDetailModel?;
+
+          return ProductDetailScreen(
+            product: product,
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.cartScreen,
@@ -165,6 +176,24 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.notificationScreen,
         builder: (context, state) => const NotificationScreen(),
+      ),
+
+
+
+      GoRoute(
+        path: AppRoutes.chatListScreen,
+        builder: (context, state) {
+          return const ChatListScreen();
+        },
+      ),
+
+      GoRoute(
+        path: AppRoutes.chatDetailScreen,
+        builder: (context, state) {
+          final ChatUserModel? user = state.extra as ChatUserModel?;
+
+          return ChatDetailScreen(user: user);
+        },
       ),
     ],
   );

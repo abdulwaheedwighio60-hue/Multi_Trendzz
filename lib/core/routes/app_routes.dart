@@ -28,4 +28,8 @@ class AppRoutes {
   static const String settingScreen = "/setting-screen";
   static const String notificationScreen = '/notification-screen';
 
+
+  static const String chatListScreen = '/chat-list-screen';
+  static const String chatDetailScreen = '/chat-detail-screen';
+
 }

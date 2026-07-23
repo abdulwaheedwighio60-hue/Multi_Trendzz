@@ -9,6 +9,7 @@ import 'package:multi_trendzz/core/model/cart_item_model.dart';
 import 'package:multi_trendzz/core/routes/app_routes.dart';
 import 'package:multi_trendzz/core/theme/app_text_style.dart';
 import 'package:multi_trendzz/core/widgets/custom_back_button_widget.dart';
+import 'package:multi_trendzz/data/cart_dummy_data.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/widgets/cart_item_widget.dart';
 
 class CartScreen extends StatefulWidget {
@@ -24,37 +25,38 @@ class _CartScreenState extends State<CartScreen> {
   double deliveryFee = 25.00;
   double discount = 35.00;
 
-  final List<CartItemModel> cartItems = [
-    CartItemModel(
-      imagePath: AppImages.shoesImage1,
-      title: 'Light Brown Coat',
-      category: 'Clothes',
-      price: 120.00,
-      quantity: 1,
-    ),
-    CartItemModel(
-      imagePath: AppImages.shoesImage1,
-      title: 'Nike Pegasus 39',
-      category: 'Shoes',
-      price: 90.00,
-      quantity: 1,
-    ),
-    CartItemModel(
-      imagePath: AppImages.shoesImage1,
-      title: 'Nike Pegasus',
-      category: 'Shoes',
-      price: 85.00,
-      quantity: 1,
-    ),
-    CartItemModel(
-      imagePath: AppImages.shoesImage1,
-      title: 'Grey Chair',
-      category: 'Furniture',
-      price: 120.00,
-      quantity: 1,
-    ),
-  ];
+  // final List<CartItemModel> cartItems = [
+  //   CartItemModel(
+  //     imagePath: AppImages.shoesImage1,
+  //     title: 'Light Brown Coat',
+  //     category: 'Clothes',
+  //     price: 120.00,
+  //     quantity: 1,
+  //   ),
+  //   CartItemModel(
+  //     imagePath: AppImages.shoesImage1,
+  //     title: 'Nike Pegasus 39',
+  //     category: 'Shoes',
+  //     price: 90.00,
+  //     quantity: 1,
+  //   ),
+  //   CartItemModel(
+  //     imagePath: AppImages.shoesImage1,
+  //     title: 'Nike Pegasus',
+  //     category: 'Shoes',
+  //     price: 85.00,
+  //     quantity: 1,
+  //   ),
+  //   CartItemModel(
+  //     imagePath: AppImages.shoesImage1,
+  //     title: 'Grey Chair',
+  //     category: 'Furniture',
+  //     price: 120.00,
+  //     quantity: 1,
+  //   ),
+  // ];
 
+  List<CartItemModel> get cartItems => CartDummyData.cartItems;
   double get subTotal {
     return cartItems.fold(
       0,
@@ -68,21 +70,20 @@ class _CartScreenState extends State<CartScreen> {
 
   void increaseQuantity(int index) {
     setState(() {
-      cartItems[index].quantity++;
+      CartDummyData.increaseQuantity(index);
     });
   }
 
-  void decreaseQuantity(int index) {
-    if (cartItems[index].quantity <= 1) return;
 
+  void decreaseQuantity(int index) {
     setState(() {
-      cartItems[index].quantity--;
+      CartDummyData.decreaseQuantity(index);
     });
   }
 
   void removeItem(int index) {
     setState(() {
-      cartItems.removeAt(index);
+      CartDummyData.removeAt(index);
     });
   }
 
@@ -136,18 +137,7 @@ class _CartScreenState extends State<CartScreen> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           leadingWidth: 60.w,
-          leading: Padding(
-            padding: EdgeInsets.only(
-              left: 12.w,
-              top: 8.h,
-              bottom: 8.h,
-            ),
-            child: CustomBackButtonWidget(
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
+
           title: Text(
             'My Cart',
             style: AppTextStyles.bodyLarge.copyWith(

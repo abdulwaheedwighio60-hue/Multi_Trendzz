@@ -1,3 +1,4 @@
+import 'package:multi_trendzz/core/model/cart_item_model.dart';
 import 'package:multi_trendzz/core/model/shipping_model.dart';
 import 'package:multi_trendzz/core/widgets/custom_back_button_widget.dart';
 import 'package:multi_trendzz/core/constants/app_colors.dart';
@@ -9,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:multi_trendzz/data/cart_dummy_data.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/widgets/change_button_widget.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/widgets/check_out_order_item_widget.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/widgets/circle_icon.dart';
@@ -64,26 +66,7 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
     ),
   ];
 
-  final List<CheckoutOrderItemModel> orderItems = [
-    CheckoutOrderItemModel(
-      imagePath: AppImages.shoesImage1,
-      title: 'Light Brown Coat',
-      category: 'Clothes',
-      price: 120.00,
-    ),
-    CheckoutOrderItemModel(
-      imagePath: AppImages.shoesImage1,
-      title: 'Nike Pegasus 39',
-      category: 'Shoes',
-      price: 90.00,
-    ),
-    CheckoutOrderItemModel(
-      imagePath: AppImages.shoesImage1,
-      title: 'Nike Pegasus',
-      category: 'Shoes',
-      price: 85.00,
-    ),
-  ];
+  List<CartItemModel> get orderItems => CartDummyData.cartItems;
 
   ShippingAddressModel get selectedAddress => addresses[selectedAddressIndex];
 
@@ -296,23 +279,39 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
 
                     SizedBox(height: 16.h),
 
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: orderItems.length,
-                      separatorBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 14.h),
-                          child: Divider(
-                            color: AppColors.borderColor,
-                            thickness: 1.h,
-                          ),
-                        );
-                      },
-                      itemBuilder: (context, index) {
-                        final item = orderItems[index];
+                    ValueListenableBuilder<List<CartItemModel>>(
+                      valueListenable: CartDummyData.cartNotifier,
+                      builder: (context, cartItems, child) {
+                        if (cartItems.isEmpty) {
+                          return _buildEmptyCheckoutCart();
+                        }
 
-                        return CheckoutOrderItemWidget(item: item);
+                        return ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: cartItems.length,
+                          separatorBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 14.h),
+                              child: Divider(
+                                color: AppColors.borderColor,
+                                thickness: 1.h,
+                              ),
+                            );
+                          },
+                          itemBuilder: (context, index) {
+                            final CartItemModel item = cartItems[index];
+
+                            return CheckoutOrderItemWidget(
+                              item: CheckoutOrderItemModel(
+                                imagePath: item.imagePath,
+                                title: item.title,
+                                category: item.category,
+                                price: item.totalPrice,
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                   ],
@@ -326,7 +325,46 @@ class _ProceedToCheckOutScreenState extends State<ProceedToCheckOutScreen> {
       ),
     );
   }
+  Widget _buildEmptyCheckoutCart() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 28.h),
+      child: Center(
+        child: Column(
+          children: [
+            Icon(
+              Iconsax.shopping_cart,
+              color: AppColors.textHint,
+              size: 62.sp,
+            ),
 
+            SizedBox(height: 14.h),
+
+            Text(
+              'No items in checkout',
+              style: AppTextStyles.bodyLarge.copyWith(
+                color: AppColors.textPrimary,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+
+            SizedBox(height: 6.h),
+
+            Text(
+              'Please add products to cart before checkout.',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+                fontSize: 13.sp,
+                height: 1.4,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   Widget _buildSectionTitle(String title) {
     return Text(
       title,

@@ -5,7 +5,7 @@ import 'package:multi_trendzz/core/constants/app_colors.dart';
 import 'package:multi_trendzz/core/model/botton_nav_item.dart';
 import 'package:multi_trendzz/core/theme/app_text_style.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/cart_screen.dart';
-import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/chat_screen/chat_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/chat/chat_list_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/dashboard_screen/dashboard_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/user_profile_screen/user_profile_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/wish_list_screen/wish_list_screen.dart';
@@ -24,7 +24,7 @@ class _RootScreenState extends State<RootScreen> {
     DashboardScreen(),
     WishlistScreen(),
     CartScreen(),
-    ChatScreen(),
+    ChatListScreen(),
     UserProfileScreen()
   ];
 

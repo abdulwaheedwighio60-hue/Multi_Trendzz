@@ -6,11 +6,14 @@ import 'package:iconsax/iconsax.dart';
 import 'package:multi_trendzz/core/constants/app_colors.dart';
 import 'package:multi_trendzz/core/constants/app_images.dart';
 import 'package:multi_trendzz/core/constants/app_texts.dart';
+import 'package:multi_trendzz/core/model/cart_item_model.dart';
 import 'package:multi_trendzz/core/model/product_color_model.dart';
 import 'package:multi_trendzz/core/model/product_detail_item.dart';
 import 'package:multi_trendzz/core/routes/app_routes.dart';
 import 'package:multi_trendzz/core/theme/app_text_style.dart';
 import 'package:multi_trendzz/core/widgets/custom_back_button_widget.dart';
+import 'package:multi_trendzz/data/cart_dummy_data.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({
@@ -31,6 +34,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int selectedColorIndex = 0;
   bool isFavorite = false;
   bool isExpanded = false;
+  bool isAddedToCart = false;
 
   @override
   void initState() {
@@ -57,21 +61,55 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           colors: [
             ProductColorModel(
               name: 'Brown',
-              color: Color(0xFF8B5A2B),
+              color: const Color(0xFF8B5A2B),
             ),
             ProductColorModel(
               name: 'Black',
-              color: Color(0xFF222222),
+              color: const Color(0xFF222222),
             ),
             ProductColorModel(
               name: 'Grey',
-              color: Color(0xFF9E9E9E),
+              color: const Color(0xFF9E9E9E),
             ),
           ],
         );
 
     isFavorite = product.isFavorite;
+    isAddedToCart = CartDummyData.isProductInCart(product.title);
   }
+
+
+  void addProductToCart() {
+    if (isAddedToCart) {
+      context.push(AppRoutes.cartScreen);
+      return;
+    }
+
+    CartDummyData.addToCart(
+      CartItemModel(
+        imagePath: product.images.first,
+        title: product.title,
+        category: product.category,
+        price: product.totalPrice,
+        quantity: 1,
+      ),
+    );
+
+    setState(() {
+      isAddedToCart = true;
+    });
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text('${product.title} added to cart'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: AppColors.primaryColor,
+        ),
+      );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +139,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             child: CustomBackButtonWidget(
               onTap: () {
-                context.go(AppRoutes.rootScreen);
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.rootScreen);
+                }
               },
             ),
           ),
@@ -205,11 +247,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
 
-                Image.asset(
-                  product.images[selectedImageIndex],
+                _buildImageWithShimmer(
+                  imagePath: product.images[selectedImageIndex],
                   width: 210.w,
                   height: 210.h,
                   fit: BoxFit.contain,
+                  borderRadius: 18.r,
                 ),
               ],
             ),
@@ -273,10 +316,112 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.r),
-          child: Image.asset(
-            product.images[index],
-            fit: BoxFit.contain,
+          child: _buildImageWithShimmer(
+            imagePath: product.images[index],
+            width: 48.w,
+            height: 52.h,
+            fit: BoxFit.cover,
+            borderRadius: 8.r,
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageWithShimmer({
+    required String imagePath,
+    required double width,
+    required double height,
+    required BoxFit fit,
+    required double borderRadius,
+  }) {
+    final bool isNetworkImage = imagePath.startsWith('http');
+
+    if (isNetworkImage) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Image.network(
+          imagePath,
+          width: width,
+          height: height,
+          fit: fit,
+          loadingBuilder: (
+              BuildContext context,
+              Widget child,
+              ImageChunkEvent? loadingProgress,
+              ) {
+            if (loadingProgress == null) {
+              return child;
+            }
+
+            return _buildImageShimmer(
+              width: width,
+              height: height,
+              borderRadius: borderRadius,
+            );
+          },
+          errorBuilder: (
+              BuildContext context,
+              Object error,
+              StackTrace? stackTrace,
+              ) {
+            return _buildImageErrorBox(
+              width: width,
+              height: height,
+              borderRadius: borderRadius,
+            );
+          },
+        ),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: Image.asset(
+        imagePath,
+        width: width,
+        height: height,
+        fit: fit,
+      ),
+    );
+  }
+
+  Widget _buildImageShimmer({
+    required double width,
+    required double height,
+    required double borderRadius,
+  }) {
+    return Shimmer.fromColors(
+      baseColor: AppColors.borderColor.withOpacity(0.45),
+      highlightColor: AppColors.white.withOpacity(0.95),
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageErrorBox({
+    required double width,
+    required double height,
+    required double borderRadius,
+  }) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: AppColors.greyColor.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      child: Center(
+        child: Icon(
+          Icons.image_not_supported_outlined,
+          color: AppColors.textHint,
+          size: 34.sp,
         ),
       ),
     );
@@ -411,7 +556,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               color: const Color(0xFFFFB800),
               size: 22.sp,
             ),
+
             SizedBox(width: 4.w),
+
             Text(
               product.rating.toStringAsFixed(1),
               style: AppTextStyles.bodyMedium.copyWith(
@@ -446,8 +593,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             CircleAvatar(
               radius: 26.r,
               backgroundColor: AppColors.primaryLight,
-              backgroundImage:
-              AssetImage(product.sellerImage),
+              backgroundImage: _getSellerImageProvider(product.sellerImage),
             ),
 
             SizedBox(width: 10.w),
@@ -496,6 +642,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
       ],
     );
+  }
+
+  ImageProvider _getSellerImageProvider(String imagePath) {
+    if (imagePath.startsWith('http')) {
+      return NetworkImage(imagePath);
+    }
+
+    return AssetImage(imagePath);
   }
 
   Widget _buildSellerActionButton({
@@ -665,11 +819,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             child: SizedBox(
               height: 54.h,
               child: ElevatedButton(
-                onPressed: () {
-                  debugPrint('Add to cart: ${product.title}');
-                },
+                onPressed: addProductToCart,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
+                  backgroundColor: isAddedToCart
+                      ? AppColors.success
+                      : AppColors.primaryColor,
                   foregroundColor: AppColors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -680,13 +834,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Iconsax.bag_2,
+                      isAddedToCart ? Icons.check_rounded : Iconsax.bag_2,
                       color: AppColors.white,
                       size: 20.sp,
                     ),
+
                     SizedBox(width: 10.w),
+
                     Text(
-                      'Add to Cart',
+                      isAddedToCart ? 'Added' : 'Add to Cart',
                       style: AppTextStyles.bodyLarge.copyWith(
                         color: AppColors.white,
                         fontSize: 16.sp,

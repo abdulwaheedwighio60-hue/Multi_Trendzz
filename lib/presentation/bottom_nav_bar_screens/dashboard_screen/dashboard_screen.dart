@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:multi_trendzz/core/constants/app_colors.dart';
 import 'package:multi_trendzz/core/constants/app_texts.dart';
 import 'package:multi_trendzz/core/model/category_item.dart';
+import 'package:multi_trendzz/core/model/product_color_model.dart';
+import 'package:multi_trendzz/core/model/product_detail_item.dart';
 import 'package:multi_trendzz/core/model/product_item.dart';
 import 'package:multi_trendzz/core/routes/app_routes.dart';
 import 'package:multi_trendzz/core/theme/app_text_style.dart';
@@ -26,6 +28,49 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+
+  ProductDetailModel convertToProductDetail(ProductItem product) {
+    final double productPrice = double.tryParse(
+      product.price.replaceAll('\$', '').trim(),
+    ) ??
+        0.0;
+
+    final double productRating = double.tryParse(product.rating) ?? 0.0;
+
+    return ProductDetailModel(
+      category: product.category,
+      title: product.productName,
+      rating: productRating,
+      totalPrice: productPrice,
+      sellerName: product.sellerName,
+      sellerRole: product.sellerRole,
+      sellerImage: product.sellerImage,
+      description: product.description,
+      isFavorite: product.isFavorite,
+      images: [
+        product.imagePath,
+        product.imagePath,
+        product.imagePath,
+        product.imagePath,
+        product.imagePath,
+      ],
+      colors: [
+        ProductColorModel(
+          name: 'Black',
+          color: const Color(0xFF222222),
+        ),
+        ProductColorModel(
+          name: 'Red',
+          color: AppColors.primaryColor,
+        ),
+        ProductColorModel(
+          name: 'Grey',
+          color: const Color(0xFF9E9E9E),
+        ),
+      ],
+    );
+  }
+
   final List<CategoryItem> categories = [
     CategoryItem(
       title: 'Clothes',
@@ -341,11 +386,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             rating: product.rating,
                             isFavorite: product.isFavorite,
                             onTap: () {
-                              debugPrint(
-                                'Product clicked: ${product.productName}',
+                              final ProductDetailModel detailProduct =
+                              convertToProductDetail(product);
+
+                              context.push(
+                                AppRoutes.productDetailScreen,
+                                extra: detailProduct,
                               );
-                              context.push(AppRoutes.productDetailScreen);
                             },
+                            // onTap: () {
+                            //   debugPrint(
+                            //     'Product clicked: ${product.productName}',
+                            //   );
+                            //   context.push(AppRoutes.productDetailScreen);
+                            // },
                             onFavoriteTap: () {
                               debugPrint(
                                 'Favorite clicked: ${product.productName}',

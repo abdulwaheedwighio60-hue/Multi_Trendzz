@@ -138,6 +138,8 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               onTap: () {
                 if (context.canPop()) {
                   context.pop();
+                } else {
+                  context.go(AppRoutes.rootScreen);
                 }
               },
             ),

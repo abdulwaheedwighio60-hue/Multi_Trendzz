@@ -5,6 +5,7 @@ import 'package:multi_trendzz/core/constants/app_colors.dart';
 import 'package:multi_trendzz/core/model/cart_item_model.dart';
 import 'package:multi_trendzz/core/theme/app_text_style.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/widgets/QuantityButtonWIdget.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CartItemWidget extends StatelessWidget {
   const CartItemWidget({
@@ -86,13 +87,9 @@ class CartItemWidget extends StatelessWidget {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.r),
-                        child: Image.asset(
-                          item.imagePath,
-                          fit: BoxFit.contain,
-                        ),
+                        child: _buildCartProductImage(item.imagePath),
                       ),
                     ),
-
                     SizedBox(width: 14.w),
 
                     Expanded(
@@ -288,10 +285,7 @@ class CartItemWidget extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.r),
-                child: Image.asset(
-                  item.imagePath,
-                  fit: BoxFit.contain,
-                ),
+                child: _buildCartProductImage(item.imagePath),
               ),
             ),
 
@@ -371,6 +365,58 @@ class CartItemWidget extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildCartProductImage(String imagePath) {
+    final bool isNetworkImage = imagePath.startsWith('http');
+
+    if (isNetworkImage) {
+      return Image.network(
+        imagePath,
+        fit: BoxFit.cover,
+        loadingBuilder: (
+            BuildContext context,
+            Widget child,
+            ImageChunkEvent? loadingProgress,
+            ) {
+          if (loadingProgress == null) {
+            return child;
+          }
+
+          return _buildImageShimmer();
+        },
+        errorBuilder: (
+            BuildContext context,
+            Object error,
+            StackTrace? stackTrace,
+            ) {
+          return Center(
+            child: Icon(
+              Icons.image_not_supported_outlined,
+              color: AppColors.textHint,
+              size: 28.sp,
+            ),
+          );
+        },
+      );
+    }
+
+    return Image.asset(
+      imagePath,
+      fit: BoxFit.contain,
+    );
+  }
+
+  Widget _buildImageShimmer() {
+    return Shimmer.fromColors(
+      baseColor: AppColors.borderColor.withOpacity(0.45),
+      highlightColor: AppColors.white.withOpacity(0.95),
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: AppColors.white,
       ),
     );
   }

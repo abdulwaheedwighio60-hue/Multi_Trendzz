@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_trendzz/core/constants/app_colors.dart';
 import 'package:multi_trendzz/core/model/shipping_model.dart';
 import 'package:multi_trendzz/core/theme/app_text_style.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CheckoutOrderItemWidget extends StatelessWidget {
   const CheckoutOrderItemWidget({
@@ -24,13 +25,9 @@ class CheckoutOrderItemWidget extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10.r),
-            child: Image.asset(
-              item.imagePath,
-              fit: BoxFit.contain,
-            ),
+            child: _buildCheckoutProductImage(item.imagePath),
           ),
         ),
-
         SizedBox(width: 14.w),
 
         Expanded(
@@ -73,6 +70,59 @@ class CheckoutOrderItemWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+
+  Widget _buildCheckoutProductImage(String imagePath) {
+    final bool isNetworkImage = imagePath.startsWith('http');
+
+    if (isNetworkImage) {
+      return Image.network(
+        imagePath,
+        fit: BoxFit.cover,
+        loadingBuilder: (
+            BuildContext context,
+            Widget child,
+            ImageChunkEvent? loadingProgress,
+            ) {
+          if (loadingProgress == null) {
+            return child;
+          }
+
+          return _buildImageShimmer();
+        },
+        errorBuilder: (
+            BuildContext context,
+            Object error,
+            StackTrace? stackTrace,
+            ) {
+          return Center(
+            child: Icon(
+              Icons.image_not_supported_outlined,
+              color: AppColors.textHint,
+              size: 28.sp,
+            ),
+          );
+        },
+      );
+    }
+
+    return Image.asset(
+      imagePath,
+      fit: BoxFit.contain,
+    );
+  }
+
+  Widget _buildImageShimmer() {
+    return Shimmer.fromColors(
+      baseColor: AppColors.borderColor.withOpacity(0.45),
+      highlightColor: AppColors.white.withOpacity(0.95),
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: AppColors.white,
+      ),
     );
   }
 }
