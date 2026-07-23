@@ -110,8 +110,6 @@ class _WalletScreenState extends State<WalletScreen> {
               onTap: () {
                 if (context.canPop()) {
                   context.pop();
-                } else {
-                  context.go(AppRoutes.userProfileScreen);
                 }
               },
             ),

@@ -43,12 +43,46 @@ class FlashSaleProductCardWidget extends StatelessWidget {
                     color: AppColors.greyColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(14.r),
                   ),
-                  child: Center(
-                    child: Image.asset(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(14.r),
+                    child: Image.network(
                       imagePath,
-                      width: 125.w,
-                      height: 105.h,
-                      fit: BoxFit.contain,
+                      width: 150.w,
+                      height: 155.h,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (
+                          BuildContext context,
+                          Widget child,
+                          ImageChunkEvent? loadingProgress,
+                          ) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+
+                        return Center(
+                          child: SizedBox(
+                            width: 24.w,
+                            height: 24.w,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.w,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        );
+                      },
+                      errorBuilder: (
+                          BuildContext context,
+                          Object error,
+                          StackTrace? stackTrace,
+                          ) {
+                        return Center(
+                          child: Icon(
+                            Icons.image_not_supported_outlined,
+                            color: AppColors.textHint,
+                            size: 34.sp,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -101,15 +135,11 @@ class FlashSaleProductCardWidget extends StatelessWidget {
                   ),
                 ),
 
-                // SizedBox(width: 4.w),
-
                 Icon(
                   Icons.star,
                   color: const Color(0xFFFFB800),
                   size: 15.sp,
                 ),
-
-                // SizedBox(width: 3.w),
 
                 Text(
                   rating,

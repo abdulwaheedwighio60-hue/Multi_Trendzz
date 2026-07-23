@@ -7,6 +7,7 @@ import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/my_order/my_or
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/my_order/track_order_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/proceed_to_check_out_screen/proceed_to_check_out_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/product_detail_screen/product_detail_screen.dart';
+import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/settings/setting_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/shipping_address/add_new_shipping_address.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/shipping_address/shipping_address_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/user_profile_screen/edit_profile_screen.dart';
@@ -18,6 +19,7 @@ import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/cart/cart_scre
 import 'package:multi_trendzz/presentation/auth_screens/login_screen/login_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/wallet/add_money_screen.dart';
 import 'package:multi_trendzz/presentation/bottom_nav_bar_screens/wallet/wallet_screen.dart';
+import 'package:multi_trendzz/presentation/notification/notification_screen.dart';
 import 'package:multi_trendzz/presentation/payment_method/add_card_screen.dart';
 import 'package:multi_trendzz/presentation/payment_method/payment_method_screen.dart';
 import 'package:multi_trendzz/presentation/onboarding_screen/onboarding_screen.dart';
@@ -155,6 +157,14 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.couponScreen,
         builder: (context, state) => const CouponScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.settingScreen,
+        builder: (context, state) => const SettingScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.notificationScreen,
+        builder: (context, state) => const NotificationScreen(),
       ),
     ],
   );

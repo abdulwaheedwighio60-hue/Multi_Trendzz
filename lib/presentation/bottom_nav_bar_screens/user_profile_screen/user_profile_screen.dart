@@ -185,6 +185,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                           case 6:
                           // Settings
+                            context.push(AppRoutes.settingScreen);
                             break;
 
                           case 7:
